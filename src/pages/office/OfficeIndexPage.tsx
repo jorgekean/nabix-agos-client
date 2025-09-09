@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { Pencil, Trash2, PlusCircle, Edit } from 'lucide-react';
+import { Trash2, PlusCircle, Edit } from 'lucide-react';
 
 import { DataTable, type Column } from '../../components/tables/DataTable';
 import { type Office, officeService } from './OfficeService';
@@ -87,7 +87,7 @@ export const OfficeIndexPage: React.FC = () => {
             </header>
 
             {/* 6. Render the DataTable with all the required props */}
-            <DataTable<Office>
+            <DataTable<Office | any>
                 key={refreshKey} // Use the refreshKey here
                 columns={officeColumns}
                 fetchData={fetchOffices}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 // 1. Import the necessary icons from lucide-react
 import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
 
