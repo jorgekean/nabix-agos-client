@@ -1,20 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react'; // Removed useState
 import { useNavigate } from 'react-router-dom';
 import { OfficeForm } from './components/OfficeForm';
 import { useOffices } from './useOffices';
-import { type Office } from './OfficeService';
+import { type OfficeFormData } from './officeSchema';
 import { ArrowLeft } from 'lucide-react';
 
 export const OfficeCreatePage: React.FC = () => {
     const navigate = useNavigate();
     const { addOffice } = useOffices();
-    const [isSaving, setIsSaving] = useState(false);
+    // No longer need isSaving state
 
-    const handleSubmit = async (data: Omit<Office, 'officeID'>) => {
-        setIsSaving(true);
+    const handleSubmit = async (data: OfficeFormData) => {
         await addOffice(data);
-        setIsSaving(false);
-        navigate('/offices'); // Navigate back to the list after creation
+        navigate('/offices');
     };
 
     return (
@@ -27,7 +25,8 @@ export const OfficeCreatePage: React.FC = () => {
                 <h1 className="text-3xl font-bold text-gray-800">Create New Office</h1>
                 <p className="mt-1 text-md text-gray-500">Fill in the details below to add a new office location.</p>
             </header>
-            <OfficeForm onSubmit={handleSubmit} isSaving={isSaving} mode="create" />
+            {/* The isSaving prop is removed */}
+            <OfficeForm onSubmit={handleSubmit} mode="create" />
         </div>
     );
 };

@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
+
 import { OfficeForm } from './components/OfficeForm';
 import { useOffices } from './useOffices';
-import { type Office, officeService } from './OfficeService';
-import { ArrowLeft } from 'lucide-react';
+import { officeService, type Office } from './OfficeService';
+import { type OfficeFormData } from './officeSchema';
 
 export const OfficeEditPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const { updateOffice } = useOffices();
+
+    // State to hold the initial office data
     const [office, setOffice] = useState<Office | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [isSaving, setIsSaving] = useState(false);
 
     useEffect(() => {
         const officeId = parseInt(id!, 10);
@@ -24,7 +27,6 @@ export const OfficeEditPage: React.FC = () => {
             if (data) {
                 setOffice(data);
             } else {
-                // Handle case where office is not found
                 alert('Office not found');
                 navigate('/offices');
             }
@@ -32,10 +34,10 @@ export const OfficeEditPage: React.FC = () => {
         });
     }, [id, navigate]);
 
-    const handleSubmit = async (data: Omit<Office, 'officeID'>) => {
-        setIsSaving(true);
+    // The handleSubmit function now receives validated data from the form.
+    const handleSubmit = async (data: OfficeFormData) => {
+        // No need to manage isSaving state here; RHF handles it.
         await updateOffice({ officeID: office!.officeID, ...data });
-        setIsSaving(false);
         navigate('/offices');
     };
 
@@ -53,7 +55,12 @@ export const OfficeEditPage: React.FC = () => {
                 <h1 className="text-3xl font-bold text-gray-800">Edit Office</h1>
                 <p className="mt-1 text-md text-gray-500">Update the details for "{office?.officeName}".</p>
             </header>
-            <OfficeForm initialData={office!} onSubmit={handleSubmit} isSaving={isSaving} mode="edit" />
+
+            <OfficeForm
+                initialData={office!}
+                onSubmit={handleSubmit}
+                mode="edit"
+            />
         </div>
     );
 };

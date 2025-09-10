@@ -83,7 +83,13 @@ export function DataTable<T extends { id: any }>({
                             placeholder="Search..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full rounded-lg border-gray-300 bg-gray-50 py-2 pl-10 pr-4 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                            className="w-full rounded-lg border-gray-300 bg-gray-50 py-2 pl-10 pr-4 
+                                        dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200
+                                        transition-colors
+                                        focus:outline-none 
+                                        focus:ring-1
+                                        focus:ring-orange-500 
+                                        focus:border-orange-500"
                         />
                     </div>
                 </div>

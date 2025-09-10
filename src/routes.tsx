@@ -8,6 +8,9 @@ import LoginPage from "./pages/LoginPage";
 import { OfficeIndexPage } from "./pages/office/OfficeIndexPage";
 import { OfficeCreatePage } from "./pages/office/OfficeCreatePage";
 import { OfficeEditPage } from "./pages/office/OfficeEditPage";
+import { EmployeeIndexPage } from "./pages/employee/EmployeeIndexPage";
+import { EmployeeCreatePage } from "./pages/employee/EmployeeCreatePage";
+import { EmployeeEditPage } from "./pages/employee/EmployeeEditPage";
 
 // Define your app's routes
 const routes: RouteObject[] = [
@@ -45,6 +48,10 @@ const routes: RouteObject[] = [
             },
             // --------------------------------
 
+            // --- Employee Management Routes ---
+            { path: '/employees', element: <EmployeeIndexPage /> },
+            { path: '/employees/new', element: <EmployeeCreatePage /> },
+            { path: '/employees/edit/:id', element: <EmployeeEditPage /> },
             {
                 path: '/settings',
                 element: <Settings />,

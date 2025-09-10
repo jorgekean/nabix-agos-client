@@ -1,7 +1,7 @@
 // src/utils/indexedDB.ts
 
 const DB_NAME = 'AssetManagementDB';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 let db: IDBDatabase;
 
@@ -27,6 +27,11 @@ export const initDB = (): Promise<boolean> => {
             if (!dbInstance.objectStoreNames.contains('offices')) {
                 // Use 'officeID' as the key and enable auto-increment
                 dbInstance.createObjectStore('offices', { keyPath: 'officeID', autoIncrement: true });
+            }
+
+            // Create the 'employees' object store if it doesn't exist
+            if (!dbInstance.objectStoreNames.contains('employees')) {
+                dbInstance.createObjectStore('employees', { keyPath: 'employeeID', autoIncrement: true });
             }
             // Future object stores (e.g., 'employees', 'assets') can be added here
         };

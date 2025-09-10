@@ -9,7 +9,8 @@ import {
     Settings,
     PanelLeftClose,
     PanelRightClose,
-    Building2, // A more specific icon for "Offices"
+    Building2,
+    UserCircle, // A more specific icon for "Offices"
 } from 'lucide-react';
 
 
@@ -49,6 +50,10 @@ const Sidebar = () => {
                 <NavLink to="/offices" className={navLinkClasses}>
                     <Building2 className="h-6 w-6 flex-shrink-0" />
                     <span className={`ml-3 ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>Offices</span>
+                </NavLink>
+                <NavLink to="/employees" className={navLinkClasses}>
+                    <UserCircle className="h-6 w-6 flex-shrink-0" />
+                    <span className={`ml-3 ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>Employees</span>
                 </NavLink>
                 <NavLink to="/settings" className={navLinkClasses}>
                     <Settings className="h-6 w-6 flex-shrink-0" />
