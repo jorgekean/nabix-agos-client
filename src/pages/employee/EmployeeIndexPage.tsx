@@ -1,7 +1,7 @@
 // src/pages/employees/EmployeeIndexPage.tsx
 import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { Pencil, Trash2, PlusCircle } from 'lucide-react';
+import { Trash2, PlusCircle, Edit } from 'lucide-react';
 import { DataTable, type Column } from '../../components/tables/DataTable';
 import { employeeService, type EmployeeWithOffice } from '../employee/EmployeeService';
 
@@ -36,10 +36,11 @@ export const EmployeeIndexPage: React.FC = () => {
 
     const renderActions = useCallback((employee: EmployeeWithOffice) => (
         <div className="flex justify-end space-x-2">
-            <Link to={`/employees/edit/${employee.employeeID}`} className="btn-icon-primary">
-                <Pencil className="h-4 w-4" />
+            <Link to={`/employees/edit/${employee.employeeID}`}
+                className="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-100 rounded-full transition-colors">
+                <Edit className="h-4 w-4" />
             </Link>
-            <button onClick={() => handleDelete(employee)} className="btn-icon-danger">
+            <button onClick={() => handleDelete(employee)} className="p-2 text-red-600 hover:text-red-900 hover:bg-red-100 rounded-full transition-colors">
                 <Trash2 className="h-4 w-4" />
             </button>
         </div>

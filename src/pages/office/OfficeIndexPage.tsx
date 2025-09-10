@@ -56,7 +56,7 @@ export const OfficeIndexPage: React.FC = () => {
         <div className="flex justify-end space-x-2">
             <Link
                 to={`/offices/edit/${office.officeID}`}
-                className="p-2 text-orange-600 hover:text-orange-900 hover:bg-orange-100 rounded-full transition-colors"
+                className="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-100 rounded-full transition-colors"
             >
                 <Edit className="h-4 w-4" />
             </Link>
