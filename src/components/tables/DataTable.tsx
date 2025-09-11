@@ -95,19 +95,29 @@ export function DataTable<T extends { id: any }>({
                 </div>
                 {filterableColumns.length > 0 && (
                     <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
-                        {filterableColumns.map(filter => (
-                            <div key={filter.key}>
-                                <label htmlFor={filter.key} className="sr-only">{filter.label}</label>
-                                <select
-                                    id={filter.key}
-                                    onChange={(e) => handleFilterChange(filter.key, e.target.value)}
-                                    className="w-full rounded-lg border-gray-300 bg-gray-50 text-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
-                                >
-                                    <option value="">{filter.label}</option>
-                                    {filter.options.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
-                                </select>
-                            </div>
-                        ))}
+                        {filterableColumns.map(filter => {
+                            // 👇 Classes updated here for a larger size
+                            const selectClasses = `
+                w-full rounded-lg border-2 text-base px-3 py-2 transition-colors
+                bg-background text-text border-primary-200/50
+                focus:border-primary-500 focus:ring-1 focus:ring-primary-500
+                dark:bg-background dark:text-text dark:border-primary-700
+            `;
+
+                            return (
+                                <div key={filter.key}>
+                                    <label htmlFor={filter.key} className="sr-only">{filter.label}</label>
+                                    <select
+                                        id={filter.key}
+                                        onChange={(e) => handleFilterChange(filter.key, e.target.value)}
+                                        className={selectClasses}
+                                    >
+                                        <option value="">All {filter.label}</option>
+                                        {filter.options.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+                                    </select>
+                                </div>
+                            );
+                        })}
                     </div>
                 )}
             </div>

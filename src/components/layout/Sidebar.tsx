@@ -10,7 +10,8 @@ import {
     PanelLeftClose,
     PanelRightClose,
     Building2,
-    UserCircle, // A more specific icon for "Offices"
+    UserCircle,
+    QrCode, // A more specific icon for "Offices"
 } from 'lucide-react';
 
 
@@ -54,6 +55,10 @@ const Sidebar = () => {
                 <NavLink to="/employees" className={navLinkClasses}>
                     <UserCircle className="h-6 w-6 flex-shrink-0" />
                     <span className={`ml-3 ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>Employees</span>
+                </NavLink>
+                <NavLink to="/assets" className={navLinkClasses}>
+                    <QrCode className="h-6 w-6 flex-shrink-0" />
+                    <span className={`ml-3 ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>Assets</span>
                 </NavLink>
                 <NavLink to="/settings" className={navLinkClasses}>
                     <Settings className="h-6 w-6 flex-shrink-0" />

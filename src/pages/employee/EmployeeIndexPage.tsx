@@ -37,7 +37,7 @@ export const EmployeeIndexPage: React.FC = () => {
     const renderActions = useCallback((employee: EmployeeWithOffice) => (
         <div className="flex justify-end space-x-2">
             <Link to={`/employees/edit/${employee.employeeID}`}
-                className="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-100 rounded-full transition-colors">
+                className="p-2 text-primary-600 hover:text-primary-900 hover:bg-primary-100 rounded-full transition-colors">
                 <Edit className="h-4 w-4" />
             </Link>
             <button onClick={() => handleDelete(employee)} className="p-2 text-red-600 hover:text-red-900 hover:bg-red-100 rounded-full transition-colors">
@@ -55,7 +55,7 @@ export const EmployeeIndexPage: React.FC = () => {
                 </div>
                 <Link
                     to="/employees/new"
-                    className="inline-flex items-center justify-center p-2 md:px-4 md:py-2 bg-orange-600 text-white font-semibold rounded-full md:rounded-md shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all"
+                    className="inline-flex items-center justify-center p-2 md:px-4 md:py-2 bg-primary text-white font-semibold rounded-full md:rounded-md shadow-sm hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all"
                 >
                     <PlusCircle className="h-5 w-5 md:mr-2" />
                     <span className="hidden md:inline">Create Employee</span>

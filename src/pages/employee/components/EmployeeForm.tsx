@@ -40,8 +40,7 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ initialData, onSubmi
                     type="text"
                     {...register('firstName')}
                     disabled={isSubmitting}
-                    // --- FIX APPLIED HERE ---
-                    className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm transition focus:outline-none orangefocus:ring-1 ${errors.firstName ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-orange-500 focus:border-orange-500'}`}
+                    className={`block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white ${errors.firstName ? 'border-red-500' : ''}`}
                 />
                 {errors.firstName && <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>}
             </div>
@@ -54,8 +53,7 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ initialData, onSubmi
                     type="text"
                     {...register('lastName')}
                     disabled={isSubmitting}
-                    // --- FIX APPLIED HERE ---
-                    className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm transition focus:outline-none orangefocus:ring-1 ${errors.lastName ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-orange-500 focus:border-orange-500'}`}
+                    className={`block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white ${errors.lastName ? 'border-red-500' : ''}`}
                 />
                 {errors.lastName && <p className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>}
             </div>
@@ -68,8 +66,7 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ initialData, onSubmi
                     type="email"
                     {...register('email')}
                     disabled={isSubmitting}
-                    // --- FIX APPLIED HERE ---
-                    className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm transition focus:outline-none orangefocus:ring-1 ${errors.email ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-orange-500 focus:border-orange-500'}`}
+                    className={`block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white ${errors.email ? 'border-red-500' : ''}`}
                 />
                 {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
             </div>
@@ -81,8 +78,7 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ initialData, onSubmi
                     id="currentOfficeId"
                     {...register('currentOfficeId')}
                     disabled={isSubmitting || officesLoading}
-                    // --- FIX APPLIED HERE ---
-                    className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm transition bg-white dark:bg-gray-700 dark:text-white focus:outline-none orangefocus:ring-1 ${errors.currentOfficeId ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-orange-500 focus:border-orange-500'}`}
+                    className={`block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white ${errors.currentOfficeId ? 'border-red-500' : ''}`}
                 >
                     <option value="">Unassigned</option>
                     {offices.map(office => (
@@ -97,13 +93,13 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ initialData, onSubmi
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="inline-flex items-center justify-center px-4 py-2 bg-orange-600 text-white font-semibold rounded-md shadow-sm hover:bg-orange-700 focus:outline-none orangefocus:ring-1 focus:ring-offset-2 focus:ring-orange-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                 >
                     {isSubmitting ? 'Saving...' : (mode === 'create' ? 'Create Employee' : 'Save Changes')}
                 </button>
                 <Link
                     to="/employees"
-                    className="px-4 py-2 bg-gray-200 text-gray-800 font-semibold rounded-md hover:bg-gray-300 focus:outline-none orangefocus:ring-1 focus:ring-offset-2 focus:ring-gray-400"
+                    className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                 >
                     Cancel
                 </Link>

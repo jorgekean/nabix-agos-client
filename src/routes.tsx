@@ -11,6 +11,10 @@ import { OfficeEditPage } from "./pages/office/OfficeEditPage";
 import { EmployeeIndexPage } from "./pages/employee/EmployeeIndexPage";
 import { EmployeeCreatePage } from "./pages/employee/EmployeeCreatePage";
 import { EmployeeEditPage } from "./pages/employee/EmployeeEditPage";
+import React from "react";
+import { AssetIndexPage } from "./pages/asset/AssetIndexPage";
+import { AssetEditPage } from "./pages/asset/AssetEditPage";
+import { AssetCreatePage } from "./pages/asset/AssetCreatePage";
 
 // Define your app's routes
 const routes: RouteObject[] = [
@@ -52,6 +56,12 @@ const routes: RouteObject[] = [
             { path: '/employees', element: <EmployeeIndexPage /> },
             { path: '/employees/new', element: <EmployeeCreatePage /> },
             { path: '/employees/edit/:id', element: <EmployeeEditPage /> },
+
+            // --- Asset Management Routes ---
+            { path: '/assets', element: <AssetIndexPage /> },
+            { path: '/assets/new', element: <AssetCreatePage /> },
+            { path: '/assets/edit/:id', element: <AssetEditPage /> },
+
             {
                 path: '/settings',
                 element: <Settings />,
