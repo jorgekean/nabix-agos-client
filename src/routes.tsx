@@ -27,7 +27,7 @@ import { ReceivingVoucherIndexPage } from "./pages/vouchers/ReceivingVoucherInde
 import { EquipmentIndexPage } from "./pages/equipment/EquipmentIndexPage";
 import { EquipmentReceivePage } from "./pages/equipment/EquipmentReceivePage"; // You will create this
 // import { EquipmentEditPage } from "./pages/equipment/EquipmentEditPage";     // You will create this
-// import { EquipmentHistoryPage } from "./pages/equipment/EquipmentHistoryPage"; // You will create this
+import { EquipmentHistoryPage } from "./pages/equipment/EquipmentHistoryPage"; // You will create this
 
 // Stock (Supplies)
 import { StockIndexPage } from "./pages/stock/StockIndexPage";
@@ -69,7 +69,7 @@ const routes: RouteObject[] = [
             // --- MISSING ROUTES ADDED BELOW ---
             { path: '/equipment/new', element: <EquipmentReceivePage /> },
             // { path: '/equipment/edit/:id', element: <EquipmentEditPage /> },
-            // { path: '/equipment/history/:id', element: <EquipmentHistoryPage /> },
+            { path: '/equipment/history/:id', element: <EquipmentHistoryPage /> },
 
             // --- Stock/Supplies Routes ---
             { path: '/supplies', element: <StockIndexPage /> },

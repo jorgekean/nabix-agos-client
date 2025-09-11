@@ -3,6 +3,8 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { Dialog, Transition } from '@headlessui/react';
 import { useAppStore } from '../../store/themeStore';
 
+import logoSrc from '../../assets/1-agos-logo-horizontal.png'
+
 // Import icons from lucide-react
 import {
     LayoutDashboard,
@@ -56,7 +58,7 @@ const Sidebar = () => {
     const sidebarContent = (
         <>
             <div className="flex h-16 flex-shrink-0 items-center justify-center border-b border-gray-200 px-4 dark:border-gray-700">
-                <span className={`text-xl font-semibold text-gray-800 dark:text-white ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>Agos Admin</span>
+                <span className={`text-xl font-semibold text-gray-800 dark:text-white ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}><img src={logoSrc} alt="Logo" className="h-16" /></span>
             </div>
 
             <nav className="flex-1 space-y-1 overflow-y-auto p-4">

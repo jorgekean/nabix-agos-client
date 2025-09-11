@@ -175,13 +175,13 @@ export const EquipmentReceivePage: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="flex items-center space-x-4 pt-4 border-t border-gray-200 dark:border-gray-600">
-                    <button type="submit" disabled={isSubmitting || fields.length === 0} className="inline-flex items-center justify-center px-4 py-2 bg-primary-600 text-white font-semibold rounded-md shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                        {isSubmitting ? 'Saving...' : `Receive ${fields.length} Item(s)`}
-                    </button>
+                <div className="flex items-center justify-end space-x-4 pt-4 border-t border-gray-200 dark:border-gray-600">
                     <Link to="/equipment" className="px-4 py-2 bg-gray-200 text-gray-800 font-semibold rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
                         Cancel
                     </Link>
+                    <button type="submit" disabled={isSubmitting || fields.length === 0} className="btn-primary">
+                        {isSubmitting ? 'Saving...' : `Receive ${fields.length} Item(s)`}
+                    </button>
                 </div>
             </form>
         </div>

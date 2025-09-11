@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Pencil, Trash2, PlusCircle, History } from 'lucide-react';
 import { DataTable, type Column } from '../../components/tables/DataTable';
 import { type AssetInstanceDetails, equipmentService } from '../../services/equipmentService';
+import { FaEdit, FaHistory, FaTrashAlt } from 'react-icons/fa';
 
 const columns: Column<AssetInstanceDetails>[] = [
     {
@@ -61,14 +62,14 @@ export const EquipmentIndexPage: React.FC = () => {
 
     const renderActions = useCallback((instance: AssetInstanceDetails) => (
         <div className="flex justify-end space-x-2">
-            <Link to={`/equipment/history/${instance.instanceID}`} className="p-2 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-full transition-colors">
-                <History className="h-4 w-4" />
+            <Link to={`/equipment/history/${instance.instanceID}`} className="p-2 text-secondary hover:text-secondary-800 hover:bg-secondary-100 rounded-full transition-colors">
+                <FaHistory className="h-4 w-4" />
             </Link>
             <Link to={`/equipment/edit/${instance.instanceID}`} className="p-2 text-primary-600 hover:text-primary-900 hover:bg-primary-100 rounded-full transition-colors">
-                <Pencil className="h-4 w-4" />
+                <FaEdit className="h-4 w-4" />
             </Link>
             <button onClick={() => handleDelete(instance)} className="p-2 text-red-600 hover:text-red-900 hover:bg-red-100 rounded-full transition-colors">
-                <Trash2 className="h-4 w-4" />
+                <FaTrashAlt className="h-4 w-4" />
             </button>
         </div>
     ), []);

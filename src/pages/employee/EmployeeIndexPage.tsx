@@ -1,9 +1,10 @@
 // src/pages/employees/EmployeeIndexPage.tsx
 import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { Trash2, PlusCircle, Edit } from 'lucide-react';
+import { PlusCircle } from 'lucide-react';
 import { DataTable, type Column } from '../../components/tables/DataTable';
 import { employeeService, type EmployeeWithOffice } from '../employee/EmployeeService';
+import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 
 const employeeColumns: Column<EmployeeWithOffice>[] = [
     { Header: 'First Name', accessor: 'firstName' },
@@ -38,10 +39,10 @@ export const EmployeeIndexPage: React.FC = () => {
         <div className="flex justify-end space-x-2">
             <Link to={`/employees/edit/${employee.employeeID}`}
                 className="p-2 text-primary-600 hover:text-primary-900 hover:bg-primary-100 rounded-full transition-colors">
-                <Edit className="h-4 w-4" />
+                <FaEdit className="h-4 w-4" />
             </Link>
             <button onClick={() => handleDelete(employee)} className="p-2 text-red-600 hover:text-red-900 hover:bg-red-100 rounded-full transition-colors">
-                <Trash2 className="h-4 w-4" />
+                <FaTrashAlt className="h-4 w-4" />
             </button>
         </div>
     ), []);

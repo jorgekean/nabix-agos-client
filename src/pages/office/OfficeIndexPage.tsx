@@ -1,9 +1,10 @@
 import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { Trash2, PlusCircle, Edit } from 'lucide-react';
+import { PlusCircle } from 'lucide-react';
 
 import { DataTable, type Column } from '../../components/tables/DataTable';
 import { type Office, officeService } from './OfficeService';
+import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 // 3. Define the columns for the DataTable
 //    This tells the table what headers to display and how to access the data.
 const officeColumns: Column<Office>[] = [
@@ -58,13 +59,13 @@ export const OfficeIndexPage: React.FC = () => {
                 to={`/offices/edit/${office.officeID}`}
                 className="p-2 text-primary-600 hover:text-primary-900 hover:bg-primary-100 rounded-full transition-colors"
             >
-                <Edit className="h-4 w-4" />
+                <FaEdit className="h-4 w-4" />
             </Link>
             <button
                 onClick={() => handleDelete(office.officeID!, office.officeName)}
                 className="p-2 text-red-600 hover:text-red-900 hover:bg-red-100 rounded-full transition-colors"
             >
-                <Trash2 className="h-4 w-4" />
+                <FaTrashAlt className="h-4 w-4" />
             </button>
         </div>
     ), []);
