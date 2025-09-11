@@ -1,7 +1,7 @@
 // src/utils/indexedDB.ts
 
 const DB_NAME = 'AssetManagementDB';
-const DB_VERSION = 5;
+const DB_VERSION = 7;
 
 let db: IDBDatabase;
 
@@ -23,6 +23,8 @@ export const initDB = (): Promise<boolean> => {
         // This runs if the DB version changes, or if it's the first time running
         request.onupgradeneeded = () => {
             const dbInstance = request.result;
+            const transaction = request.transaction;
+
             // Offices 
             if (!dbInstance.objectStoreNames.contains('offices')) {
                 dbInstance.createObjectStore('offices', { keyPath: 'officeID', autoIncrement: true });
@@ -36,12 +38,12 @@ export const initDB = (): Promise<boolean> => {
                 dbInstance.createObjectStore('assetCatalog', { keyPath: 'catalogID', autoIncrement: true });
             }
             // AssetInstances (The physical, serialized items)
-            if (!dbInstance.objectStoreNames.contains('assetInstances')) {
-                const instanceStore = dbInstance.createObjectStore('assetInstances', { keyPath: 'instanceID', autoIncrement: true });
-                // Add indexes for easier lookups
-                instanceStore.createIndex('catalogID_idx', 'catalogID', { unique: false });
-                instanceStore.createIndex('propertyCode_idx', 'propertyCode', { unique: true });
-            }
+            // if (!dbInstance.objectStoreNames.contains('assetInstances')) {
+            //     const instanceStore = dbInstance.createObjectStore('assetInstances', { keyPath: 'instanceID', autoIncrement: true });
+            //     // Add indexes for easier lookups
+            //     instanceStore.createIndex('catalogID_idx', 'catalogID', { unique: false });
+            //     instanceStore.createIndex('propertyCode_idx', 'propertyCode', { unique: true });
+            // }
             // Stock (For bulk supplies)
             if (!dbInstance.objectStoreNames.contains('stock')) {
                 const stockStore = dbInstance.createObjectStore('stock', { keyPath: 'stockID', autoIncrement: true });
@@ -51,6 +53,18 @@ export const initDB = (): Promise<boolean> => {
             if (!dbInstance.objectStoreNames.contains('assetTransactions')) {
                 const transactionStore = dbInstance.createObjectStore('assetTransactions', { keyPath: 'transactionID', autoIncrement: true });
                 transactionStore.createIndex('instanceID_idx', 'instanceID', { unique: false });
+            }
+            // ReceivingVouchers (For equipment receipts)
+            if (!dbInstance.objectStoreNames.contains('receivingVouchers')) {
+                dbInstance.createObjectStore('receivingVouchers', { keyPath: 'voucherID', autoIncrement: true });
+            }
+            // assetInstances index update for receivingVoucherID
+            if (dbInstance.objectStoreNames.contains('assetInstances')) {
+                const instanceStore = transaction!.objectStore('assetInstances');
+                // Add a new index to find assets by their receiving voucher
+                if (!instanceStore.indexNames.contains('receivingVoucherID_idx')) {
+                    instanceStore.createIndex('receivingVoucherID_idx', 'receivingVoucherID', { unique: false });
+                }
             }
         };
     });

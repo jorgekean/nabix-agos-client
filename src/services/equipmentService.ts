@@ -14,6 +14,7 @@ export interface AssetInstance {
     currentOfficeId: number;
     assignedToEmployeeId: number | null;
     specificLocation?: string;
+    receivingVoucherID: number | null;
 }
 
 export interface AssetInstanceDetails extends AssetInstance {
@@ -24,7 +25,7 @@ export interface AssetInstanceDetails extends AssetInstance {
 
 const STORE_NAME = 'assetInstances';
 
-export const assetInstanceService = {
+export const equipmentService = {
     async getDetailedInstances(): Promise<AssetInstanceDetails[]> {
         const [instances, catalog, offices, employees] = await Promise.all([
             getAllData<AssetInstance>(STORE_NAME),
