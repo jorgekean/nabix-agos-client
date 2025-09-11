@@ -1,7 +1,7 @@
 // src/utils/indexedDB.ts
 
 const DB_NAME = 'AssetManagementDB';
-const DB_VERSION = 4;
+const DB_VERSION = 5;
 
 let db: IDBDatabase;
 
@@ -23,27 +23,35 @@ export const initDB = (): Promise<boolean> => {
         // This runs if the DB version changes, or if it's the first time running
         request.onupgradeneeded = () => {
             const dbInstance = request.result;
-            // Create the 'offices' object store if it doesn't exist
+            // Offices 
             if (!dbInstance.objectStoreNames.contains('offices')) {
-                // Use 'officeID' as the key and enable auto-increment
                 dbInstance.createObjectStore('offices', { keyPath: 'officeID', autoIncrement: true });
             }
-
-            // Create the 'employees' object store if it doesn't exist
+            // Employees
             if (!dbInstance.objectStoreNames.contains('employees')) {
                 dbInstance.createObjectStore('employees', { keyPath: 'employeeID', autoIncrement: true });
             }
-
-            if (!dbInstance.objectStoreNames.contains('assets')) {
-                dbInstance.createObjectStore('assets', { keyPath: 'assetID', autoIncrement: true });
+            // AssetCatalog (The "Blueprints")
+            if (!dbInstance.objectStoreNames.contains('assetCatalog')) {
+                dbInstance.createObjectStore('assetCatalog', { keyPath: 'catalogID', autoIncrement: true });
             }
-
-            if (!dbInstance.objectStoreNames.contains('assetHistory')) {
-                const historyStore = dbInstance.createObjectStore('assetHistory', { keyPath: 'historyID', autoIncrement: true });
-                // Create an index on assetID to easily query for an asset's history
-                historyStore.createIndex('assetID_idx', 'assetID', { unique: false });
+            // AssetInstances (The physical, serialized items)
+            if (!dbInstance.objectStoreNames.contains('assetInstances')) {
+                const instanceStore = dbInstance.createObjectStore('assetInstances', { keyPath: 'instanceID', autoIncrement: true });
+                // Add indexes for easier lookups
+                instanceStore.createIndex('catalogID_idx', 'catalogID', { unique: false });
+                instanceStore.createIndex('propertyCode_idx', 'propertyCode', { unique: true });
             }
-            // Future object stores (e.g., 'employees', 'assets') can be added here
+            // Stock (For bulk supplies)
+            if (!dbInstance.objectStoreNames.contains('stock')) {
+                const stockStore = dbInstance.createObjectStore('stock', { keyPath: 'stockID', autoIncrement: true });
+                stockStore.createIndex('catalogID_officeID_idx', ['catalogID', 'officeID'], { unique: true });
+            }
+            // AssetTransactions (The history log)
+            if (!dbInstance.objectStoreNames.contains('assetTransactions')) {
+                const transactionStore = dbInstance.createObjectStore('assetTransactions', { keyPath: 'transactionID', autoIncrement: true });
+                transactionStore.createIndex('instanceID_idx', 'instanceID', { unique: false });
+            }
         };
     });
 };

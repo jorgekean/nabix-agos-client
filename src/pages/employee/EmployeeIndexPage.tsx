@@ -55,7 +55,7 @@ export const EmployeeIndexPage: React.FC = () => {
                 </div>
                 <Link
                     to="/employees/new"
-                    className="inline-flex items-center justify-center p-2 md:px-4 md:py-2 bg-primary text-white font-semibold rounded-full md:rounded-md shadow-sm hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all"
+                    className="btn-primary"
                 >
                     <PlusCircle className="h-5 w-5 md:mr-2" />
                     <span className="hidden md:inline">Create Employee</span>

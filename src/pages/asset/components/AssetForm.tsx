@@ -12,7 +12,7 @@ export const AssetForm: React.FC<{ initialData?: AssetFormData; onSubmit: Submit
     const { employees } = useEmployees();
 
     const { register, handleSubmit, reset, watch, formState: { errors, isSubmitting } } = useForm<AssetFormData>({
-        resolver: zodResolver(assetSchema),
+        resolver: zodResolver(assetSchema) as any,
         defaultValues: initialData || { quantity: 1, status: 'In Storage', type: 'Equipment' },
     });
 

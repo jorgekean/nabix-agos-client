@@ -38,12 +38,12 @@ const Sidebar = () => {
     const sidebarContent = (
         <>
             {/* Sidebar Header */}
-            <div className="flex h-16 flex-shrink-0 items-center border-b border-gray-200 px-4 dark:border-gray-700">
+            <div className="flex h-16 flex-shrink-0 items-center justify-center border-b border-gray-200 px-4 dark:border-gray-700">
                 <span className={`text-xl font-semibold text-gray-800 dark:text-white ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>Agos Admin</span>
             </div>
 
             {/* Navigation Links */}
-            <nav className="flex-1 space-y-2 overflow-y-auto p-4">
+            <nav className="flex-1 space-y-2 overflow-y-auto p-4 mt-8">
                 <NavLink to="/" className={navLinkClasses}>
                     <LayoutDashboard className="h-6 w-6 flex-shrink-0" />
                     <span className={`ml-3 ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>Dashboard</span>
@@ -56,10 +56,14 @@ const Sidebar = () => {
                     <UserCircle className="h-6 w-6 flex-shrink-0" />
                     <span className={`ml-3 ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>Employees</span>
                 </NavLink>
-                <NavLink to="/assets" className={navLinkClasses}>
+                <NavLink to="/catalog" className={navLinkClasses}>
+                    <QrCode className="h-6 w-6 flex-shrink-0" />
+                    <span className={`ml-3 ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>Asset Catalog</span>
+                </NavLink>
+                {/* <NavLink to="/assets" className={navLinkClasses}>
                     <QrCode className="h-6 w-6 flex-shrink-0" />
                     <span className={`ml-3 ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>Assets</span>
-                </NavLink>
+                </NavLink> */}
                 <NavLink to="/settings" className={navLinkClasses}>
                     <Settings className="h-6 w-6 flex-shrink-0" />
                     <span className={`ml-3 ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>Settings</span>

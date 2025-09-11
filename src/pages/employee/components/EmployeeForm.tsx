@@ -4,6 +4,7 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { employeeSchema, type EmployeeFormData } from '../employeeSchema';
 import { useOffices } from '../../office/useOffices';
+import { UserPlus2Icon } from 'lucide-react';
 
 interface EmployeeFormProps {
     initialData?: EmployeeFormData;
@@ -20,7 +21,7 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ initialData, onSubmi
         reset,
         formState: { errors, isSubmitting },
     } = useForm<EmployeeFormData>({
-        resolver: zodResolver(employeeSchema),
+        resolver: zodResolver(employeeSchema) as any,
         defaultValues: initialData,
     });
 
@@ -89,20 +90,21 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ initialData, onSubmi
             </div>
 
             {/* Action Buttons */}
-            <div className="flex items-center space-x-4 pt-4 border-t border-gray-200 dark:border-gray-600">
-                <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-                >
-                    {isSubmitting ? 'Saving...' : (mode === 'create' ? 'Create Employee' : 'Save Changes')}
-                </button>
+            <div className="flex items-center justify-end space-x-4 pt-4 border-t border-gray-200 dark:border-gray-600">
                 <Link
                     to="/employees"
                     className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                 >
                     Cancel
                 </Link>
+                <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="btn-primary"
+                >
+                    <UserPlus2Icon className="h-5 w-5 mr-2" />
+                    {isSubmitting ? 'Saving...' : (mode === 'create' ? 'Create Employee' : 'Save Changes')}
+                </button>
             </div>
         </form>
     );

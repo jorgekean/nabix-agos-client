@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { officeSchema, type OfficeFormData } from '../officeSchema';
+import { Building } from 'lucide-react';
 
 interface OfficeFormProps {
     initialData?: OfficeFormData;
@@ -60,13 +61,14 @@ export const OfficeForm: React.FC<OfficeFormProps> = ({ initialData, onSubmit, m
                 />
                 {errors.address && <p className="mt-1 text-sm text-red-600">{errors.address.message}</p>}
             </div>
-            <div className="flex items-center space-x-4 pt-4 border-t border-gray-200 dark:border-gray-600">
-                <button type="submit" disabled={isSubmitting} className="px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                    {isSubmitting ? 'Saving...' : (mode === 'create' ? 'Create Office' : 'Save Changes')}
-                </button>
+            <div className="flex items-center justify-end space-x-4 pt-4 border-t border-gray-200 dark:border-gray-600">
                 <Link to="/offices" className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                     Cancel
                 </Link>
+                <button type="submit" disabled={isSubmitting} className="btn-primary">
+                    <Building className="h-5 w-5 mr-2" />
+                    {isSubmitting ? 'Saving...' : (mode === 'create' ? 'Create Office' : 'Save Changes')}
+                </button>
             </div>
         </form>
     );

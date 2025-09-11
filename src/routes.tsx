@@ -16,6 +16,9 @@ import { AssetIndexPage } from "./pages/asset/AssetIndexPage";
 import { AssetEditPage } from "./pages/asset/AssetEditPage";
 import { AssetCreatePage } from "./pages/asset/AssetCreatePage";
 import { AssetHistoryPage } from "./pages/asset/AssetHistoryPage";
+import { AssetCatalogEditPage } from "./pages/catalog/AssetCatalogEditPage";
+import { AssetCatalogCreatePage } from "./pages/catalog/AssetCatalogCreatePage";
+import { AssetCatalogIndexPage } from "./pages/catalog/AssetCatalogIndexPage";
 
 // Define your app's routes
 const routes: RouteObject[] = [
@@ -63,6 +66,11 @@ const routes: RouteObject[] = [
             { path: '/assets/new', element: <AssetCreatePage /> },
             { path: '/assets/edit/:id', element: <AssetEditPage /> },
             { path: '/assets/history/:id', element: <AssetHistoryPage /> },
+
+            // Catalog Management Routes
+            { path: '/catalog', element: <AssetCatalogIndexPage /> },
+            { path: '/catalog/new', element: <AssetCatalogCreatePage /> },
+            { path: '/catalog/edit/:id', element: <AssetCatalogEditPage /> },
 
             {
                 path: '/settings',
