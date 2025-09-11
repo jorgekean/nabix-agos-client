@@ -15,6 +15,7 @@ import React from "react";
 import { AssetIndexPage } from "./pages/asset/AssetIndexPage";
 import { AssetEditPage } from "./pages/asset/AssetEditPage";
 import { AssetCreatePage } from "./pages/asset/AssetCreatePage";
+import { AssetHistoryPage } from "./pages/asset/AssetHistoryPage";
 
 // Define your app's routes
 const routes: RouteObject[] = [
@@ -61,6 +62,7 @@ const routes: RouteObject[] = [
             { path: '/assets', element: <AssetIndexPage /> },
             { path: '/assets/new', element: <AssetCreatePage /> },
             { path: '/assets/edit/:id', element: <AssetEditPage /> },
+            { path: '/assets/history/:id', element: <AssetHistoryPage /> },
 
             {
                 path: '/settings',

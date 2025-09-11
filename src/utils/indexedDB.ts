@@ -1,7 +1,7 @@
 // src/utils/indexedDB.ts
 
 const DB_NAME = 'AssetManagementDB';
-const DB_VERSION = 3;
+const DB_VERSION = 4;
 
 let db: IDBDatabase;
 
@@ -36,6 +36,12 @@ export const initDB = (): Promise<boolean> => {
 
             if (!dbInstance.objectStoreNames.contains('assets')) {
                 dbInstance.createObjectStore('assets', { keyPath: 'assetID', autoIncrement: true });
+            }
+
+            if (!dbInstance.objectStoreNames.contains('assetHistory')) {
+                const historyStore = dbInstance.createObjectStore('assetHistory', { keyPath: 'historyID', autoIncrement: true });
+                // Create an index on assetID to easily query for an asset's history
+                historyStore.createIndex('assetID_idx', 'assetID', { unique: false });
             }
             // Future object stores (e.g., 'employees', 'assets') can be added here
         };
@@ -97,6 +103,18 @@ export const getDataByKey = <T>(storeName: string, key: number): Promise<T | und
         const request = store.get(key);
 
         request.onsuccess = () => resolve(request.result as T | undefined);
+        request.onerror = () => reject(request.error);
+    });
+};
+
+export const getAllDataByIndex = <T>(storeName: string, indexName: string, query: any): Promise<T[]> => {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(storeName, 'readonly');
+        const store = transaction.objectStore(storeName);
+        const index = store.index(indexName);
+        const request = index.getAll(query);
+
+        request.onsuccess = () => resolve(request.result as T[]);
         request.onerror = () => reject(request.error);
     });
 };

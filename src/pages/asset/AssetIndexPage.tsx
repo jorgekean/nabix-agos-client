@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { Pencil, Trash2, PlusCircle, Edit } from 'lucide-react';
+import { Pencil, Trash2, PlusCircle, Edit, History } from 'lucide-react';
 import { DataTable, type Column } from '../../components/tables/DataTable';
 import { assetService, type AssetWithDetails } from './AssetService';
 
@@ -83,6 +83,9 @@ export const AssetIndexPage: React.FC = () => {
     // Renders the Edit and Delete buttons for each row.
     const renderAssetActions = useCallback((asset: AssetWithDetails) => (
         <div className="flex justify-end space-x-2">
+            <Link to={`/assets/history/${asset.assetID}`} className="p-2 text-secondary-600 hover:text-secondary-900 hover:bg-secondary-100 rounded-full transition-colors">
+                <History className="h-4 w-4" />
+            </Link>
             <Link to={`/assets/edit/${asset.assetID}`} className="p-2 text-primary-600 hover:text-primary-900 hover:bg-primary-100 rounded-full transition-colors">
                 <Edit className="h-4 w-4" />
             </Link>

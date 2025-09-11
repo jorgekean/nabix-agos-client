@@ -18,7 +18,18 @@ export const AssetForm: React.FC<{ initialData?: AssetFormData; onSubmit: Submit
 
     const assetType = watch('type');
 
-    React.useEffect(() => { if (initialData) reset(initialData); }, [initialData, reset]);
+    React.useEffect(() => {
+        // We now wait for BOTH initialData to exist AND for the offices list to have loaded.
+        // This prevents the form from trying to set a value on an empty dropdown.
+        if (initialData && offices.length > 0) {
+            const transformedData = {
+                ...initialData,
+                currentOfficeId: String(initialData.currentOfficeId || ''),
+                assignedToEmployeeId: String(initialData.assignedToEmployeeId || ''),
+            };
+            reset(transformedData as any);
+        }
+    }, [initialData, offices, employees, reset]);
 
     const inputBaseClasses = "mt-1 block w-full px-3 py-2 border rounded-md shadow-sm transition focus:outline-none focus:ring-1";
     const inputNormalClasses = "border-gray-300 focus:ring-primary-500 focus:border-primary-500";
@@ -64,7 +75,7 @@ export const AssetForm: React.FC<{ initialData?: AssetFormData; onSubmit: Submit
 
             {/* Conditional Fields for "Supply" Type */}
             {assetType === 'Supply' && (
-                <div className="grid md:grid-cols-2 gap-6 p-4 border rounded-md bg-gray-50 dark:bg-gray-700/50 dark:border-gray-600">
+                <div className="grid md:grid-cols-2 gap-6 p-4 border border-gray-200 rounded-md bg-gray-50 dark:bg-gray-700/50 dark:border-gray-600">
                     <div>
                         <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Quantity *</label>
                         <input id="quantity" type="number" {...register('quantity')} className={`${inputBaseClasses} ${errors.quantity ? inputErrorClasses : inputNormalClasses}`} />
