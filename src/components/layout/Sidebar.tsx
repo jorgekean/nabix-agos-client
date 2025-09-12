@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { Dialog, Transition } from '@headlessui/react';
 import { useAppStore } from '../../store/themeStore';
 
-import logoSrc from '../../assets/1-agos-logo-horizontal.png'
+import logoSrc from '../../assets/agosadmin-logo-2.png'
 
 // Import icons from lucide-react
 import {
