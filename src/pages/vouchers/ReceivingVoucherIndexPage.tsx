@@ -1,8 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { Pencil, Eye } from 'lucide-react'; // Using an 'Eye' icon for details
+import { Pencil, Eye, Edit } from 'lucide-react'; // Using an 'Eye' icon for details
 import { DataTable, type Column } from '../../components/tables/DataTable';
 import { receivingVoucherService, type DetailedReceivingVoucher } from '../../services/receivingVouchers';
+import { FaEdit, FaEye } from 'react-icons/fa';
 
 
 const columns: Column<DetailedReceivingVoucher>[] = [
@@ -26,12 +27,12 @@ export const ReceivingVoucherIndexPage: React.FC = () => {
 
     const renderActions = useCallback((voucher: DetailedReceivingVoucher) => (
         <div className="flex justify-end space-x-2">
-            <Link to={`/vouchers/edit/${voucher.voucherID}`} className="btn-icon-primary">
-                <Pencil className="h-4 w-4" />
+            <Link to={`/vouchers/edit/${voucher.voucherID}`} className="p-2 text-secondary-600 hover:text-secondary-900 hover:bg-secondary-100 rounded-full transition-colors">
+                <FaEdit className="h-4 w-4" />
             </Link>
             {/* Future: Link to a details page showing all items from this voucher */}
-            <button className="btn-icon-secondary" title="View Items (Not Implemented)">
-                <Eye className="h-4 w-4" />
+            <button className="p-2 text-primary-600 hover:text-primary-900 hover:bg-primary-100 rounded-full transition-colors" title="View Items (Not Implemented)">
+                <FaEye className="h-4 w-4" />
             </button>
         </div>
     ), []);

@@ -1,5 +1,5 @@
 import { officeService, type Office } from '../pages/office/OfficeService';
-import { getAllData } from '../utils/indexedDB';
+import { addData, getAllData, updateData } from '../utils/indexedDB';
 import { assetCatalogService, type CatalogItem } from './assetCatalogService';
 
 
@@ -37,5 +37,34 @@ export const stockService = {
             }))
             .filter(detailedStock => detailedStock.catalogItem?.type === 'Supply');
     },
-    // We will add an 'addStock' function here later
+
+
+    async addStock(
+        catalogID: number,
+        officeID: number,
+        quantityToAdd: number
+    ): Promise<Stock> {
+        const allStock = await getAllData<Stock>(STORE_NAME);
+        const existingStock = allStock.find(
+            s => s.catalogID === catalogID && s.officeID === officeID
+        );
+
+        if (existingStock) {
+            // If stock exists, update the quantity
+            const updatedStock = {
+                ...existingStock,
+                quantityOnHand: existingStock.quantityOnHand + quantityToAdd,
+            };
+            return updateData<Stock>(STORE_NAME, updatedStock);
+        } else {
+            // If stock doesn't exist, create a new record
+            const newStock = {
+                catalogID,
+                officeID,
+                quantityOnHand: quantityToAdd,
+            };
+            const newId = await addData(STORE_NAME, newStock);
+            return { ...newStock, stockID: newId };
+        }
+    },
 };

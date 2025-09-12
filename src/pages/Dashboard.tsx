@@ -1,71 +1,86 @@
 import React from 'react';
+import { useDashboardStats } from '../hooks/useDashboardStats';
+import { StatCard } from '../components/dashboard/StatCard';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { Laptop, Box, Archive, AlertTriangle, Clock } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-// --- Icon Components for Stat Cards ---
-const RevenueIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0l.879-.659M7 12l1.105-1.105c1.172-1.172 3.233-1.172 4.405 0L17 12" />
-    </svg>
-);
+const Dashboard: React.FC = () => {
+    const { stats, isLoading } = useDashboardStats();
 
-const SalesIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c.51 0 .962-.343 1.087-.835l.383-1.437M7.5 14.25L5.106 5.106A2.25 2.25 0 002.869 3H2.25" />
-    </svg>
-);
-
-const StatCard = ({ title, value, change, changeType, icon: Icon }: { title: string, value: string, change: string, changeType: 'positive' | 'negative', icon: React.ElementType }) => {
-    const changeColor = changeType === 'positive' ? 'text-green-500' : 'text-red-500';
-    const iconBgColor = changeType === 'positive' ? 'bg-green-100 dark:bg-green-800' : 'bg-red-100 dark:bg-red-800';
-    const iconColor = changeType === 'positive' ? 'text-green-600 dark:text-green-300' : 'text-red-600 dark:text-red-300';
+    if (isLoading) {
+        return <div className="p-6">Loading Dashboard...</div>;
+    }
 
     return (
-        <div className="rounded-xl bg-white p-6 shadow-lg transition-shadow duration-300 hover:shadow-xl dark:bg-gray-800">
-            <div className="flex items-start justify-between">
-                <div>
-                    <h3 className="text-lg font-medium text-gray-500 dark:text-gray-400">{title}</h3>
-                    <p className="mt-2 text-3xl font-bold text-gray-800 dark:text-white">{value}</p>
-                    <p className={`mt-1 text-sm ${changeColor}`}>
-                        {change} Since last month
-                    </p>
+        <div className="p-4 md:p-6 space-y-6">
+            <h1 className="text-3xl font-bold">Dashboard</h1>
+
+            {/* --- Stat Cards Section --- */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <StatCard title="Total Equipment" value={stats.totalEquipment} icon={<Laptop size={24} />} />
+                <StatCard title="Supplies in Stock" value={stats.suppliesInStock} icon={<Box size={24} />} />
+                <StatCard title="Assets in Storage" value={stats.assetsInStorage} icon={<Archive size={24} />} />
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                {/* --- Left Column: Chart & Low Stock --- */}
+                <div className="lg:col-span-2 space-y-6">
+                    {/* Equipment by Office Chart */}
+                    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <h2 className="text-lg font-semibold mb-4">Equipment by Office</h2>
+                        <ResponsiveContainer width="100%" height={300}>
+                            <BarChart data={stats.chartData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(128, 128, 128, 0.2)" />
+                                <XAxis dataKey="name" />
+                                <YAxis />
+                                <Tooltip />
+                                <Bar dataKey="count" fill="#f97316" />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+
+                    {/* Low Stock Alerts */}
+                    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <h2 className="text-lg font-semibold mb-4 flex items-center">
+                            <AlertTriangle className="h-5 w-5 mr-2 text-red-500" />
+                            Low Stock Alerts
+                        </h2>
+                        <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+                            {stats.lowStockAlerts.length > 0 ? stats.lowStockAlerts.map((item: any) => (
+                                <li key={item.stockID} className="py-3 flex justify-between items-center">
+                                    <div>
+                                        <p className="font-medium">{item.catalogItem.name}</p>
+                                        <p className="text-sm text-gray-500">{item.office.officeName}</p>
+                                    </div>
+                                    <p className="text-red-500 font-bold">{item.quantityOnHand} left</p>
+                                </li>
+                            )) : <p className="text-sm text-gray-500">No low stock items. Great job!</p>}
+                        </ul>
+                    </div>
                 </div>
-                <div className={`rounded-full p-3 ${iconBgColor}`}>
-                    <Icon className={`h-6 w-6 ${iconColor}`} />
+
+                {/* --- Right Column: Recent Activity --- */}
+                <div className="lg:col-span-1 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <h2 className="text-lg font-semibold mb-4 flex items-center">
+                        <Clock className="h-5 w-5 mr-2 text-gray-500" />
+                        Recent Activity
+                    </h2>
+                    <ul className="space-y-4">
+                        {stats.recentActivity.map((item: any) => (
+                            <li key={item.transactionID} className="text-sm">
+                                <p className="font-medium text-gray-800 dark:text-gray-100">{item.action}</p>
+                                <p className="text-gray-500 dark:text-gray-400">{item.notes}</p>
+                                <p className="text-xs text-gray-400">{new Date(item.timestamp).toLocaleString()}</p>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
+
             </div>
         </div>
     );
 };
 
-
-const Dashboard = () => {
-    return (
-        <>
-            <h1 className="mb-6 text-3xl font-bold text-gray-800 dark:text-white">Dashboard</h1>
-
-            {/* Responsive Grid for Stat Cards */}
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
-                <StatCard
-                    title="Revenue"
-                    value="$2,450"
-                    change="+11.01%"
-                    changeType="positive"
-                    icon={RevenueIcon}
-                />
-                <StatCard
-                    title="Sales"
-                    value="1,721"
-                    change="-2.5%"
-                    changeType="negative"
-                    icon={SalesIcon}
-                />
-                {/* You can easily add more cards here */}
-            </div>
-
-            {/* You can add more dashboard sections below */}
-            {/* For example, a chart or a recent activity table */}
-        </>
-    );
-};
-
 export default Dashboard;
-

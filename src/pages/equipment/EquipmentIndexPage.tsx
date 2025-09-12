@@ -66,10 +66,10 @@ export const EquipmentIndexPage: React.FC = () => {
 
     const renderActions = useCallback((instance: AssetInstanceDetails) => (
         <div className="flex justify-end space-x-2">
-            <Link to={`/equipment/history/${instance.instanceID}`} className="p-2 text-secondary hover:text-secondary-800 hover:bg-secondary-100 rounded-full transition-colors">
+            <Link to={`/equipment/history/${instance.instanceID}`} className="p-2 text-primary hover:text-primary-800 hover:bg-primary-100 rounded-full transition-colors">
                 <FaHistory className="h-4 w-4" />
             </Link>
-            <Link to={`/equipment/edit/${instance.instanceID}`} className="p-2 text-primary-600 hover:text-primary-900 hover:bg-primary-100 rounded-full transition-colors">
+            <Link to={`/equipment/edit/${instance.instanceID}`} className="p-2 text-secondary-600 hover:text-secondary-900 hover:bg-secondary-100 rounded-full transition-colors">
                 <FaEdit className="h-4 w-4" />
             </Link>
             <button onClick={() => handleDelete(instance)} className="p-2 text-red-600 hover:text-red-900 hover:bg-red-100 rounded-full transition-colors">

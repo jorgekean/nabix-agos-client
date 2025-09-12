@@ -3,8 +3,6 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { Dialog, Transition } from '@headlessui/react';
 import { useAppStore } from '../../store/themeStore';
 
-import logoSrc from '../../assets/agosadmin-logo-2.png'
-
 // Import icons from lucide-react
 import {
     LayoutDashboard,
@@ -17,16 +15,16 @@ import {
     Users,
     FileText,
     ClipboardList,
-    ChevronDown, // For the dropdown indicator
+    ChevronDown,
 } from 'lucide-react';
 
 const Sidebar = () => {
     const { isSidebarOpen, toggleSidebar, isSidebarCollapsed, toggleSidebarCollapse } = useAppStore();
-    const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1200);
+    const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024); // lg breakpoint
 
     // State for collapsible menus
-    const [isAssetsOpen, setIsAssetsOpen] = useState(false);
-    const [isAdminOpen, setIsAdminOpen] = useState(false);
+    const [isAssetsOpen, setIsAssetsOpen] = useState(true);
+    const [isAdminOpen, setIsAdminOpen] = useState(true);
 
     const location = useLocation();
 
@@ -43,7 +41,7 @@ const Sidebar = () => {
 
     // Effect to handle window resizing
     useEffect(() => {
-        const handleResize = () => setIsDesktop(window.innerWidth >= 1200);
+        const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
@@ -58,7 +56,10 @@ const Sidebar = () => {
     const sidebarContent = (
         <>
             <div className="flex h-16 flex-shrink-0 items-center justify-center border-b border-gray-200 px-4 dark:border-gray-700">
-                <span className={`text-xl font-semibold text-gray-800 dark:text-white ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}><img src={logoSrc} alt="Logo" className="h-16" /></span>
+                <div className={`flex items-baseline ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>
+                    <span className="text-2xl font-bold text-primary-600 dark:text-primary-500">Agos</span>
+                    <span className="text-2xl font-light text-slate-800 dark:text-slate-200 ml-1">Admin</span>
+                </div>
             </div>
 
             <nav className="flex-1 space-y-1 overflow-y-auto p-4">
@@ -68,12 +69,14 @@ const Sidebar = () => {
                 </NavLink>
 
                 {/* --- Assets Group --- */}
-                <div className={`pt-4 ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>
-                    <button onClick={() => setIsAssetsOpen(!isAssetsOpen)} className="flex w-full items-center justify-between text-left text-xs font-semibold uppercase tracking-wider text-gray-400">
-                        <span>Assets</span>
-                        <ChevronDown className={`h-4 w-4 transition-transform ${isAssetsOpen ? 'rotate-180' : ''}`} />
-                    </button>
-                    {isAssetsOpen && (
+                <div className="pt-4">
+                    {(!isSidebarCollapsed || !isDesktop) && (
+                        <button onClick={() => setIsAssetsOpen(!isAssetsOpen)} className="flex w-full items-center justify-between text-left text-xs font-semibold uppercase tracking-wider text-gray-400">
+                            <span>Assets</span>
+                            <ChevronDown className={`h-4 w-4 transition-transform ${isAssetsOpen ? 'rotate-180' : ''}`} />
+                        </button>
+                    )}
+                    {(isAssetsOpen || (isSidebarCollapsed && isDesktop)) && (
                         <div className="mt-2 space-y-1">
                             <NavLink to="/equipment" className={navLinkClasses}>
                                 <Laptop className="h-5 w-5 flex-shrink-0" />
@@ -92,32 +95,33 @@ const Sidebar = () => {
                 </div>
 
                 {/* --- Admin Group --- */}
-                <div className={`pt-4 ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>
-                    <button onClick={() => setIsAdminOpen(!isAdminOpen)} className="flex w-full items-center justify-between text-left text-xs font-semibold uppercase tracking-wider text-gray-400">
-                        <span>Admin</span>
-                        <ChevronDown className={`h-4 w-4 transition-transform ${isAdminOpen ? 'rotate-180' : ''}`} />
-                    </button>
-                    {isAdminOpen && (
+                <div className="pt-4">
+                    {(!isSidebarCollapsed || !isDesktop) && (
+                        <button onClick={() => setIsAdminOpen(!isAdminOpen)} className="flex w-full items-center justify-between text-left text-xs font-semibold uppercase tracking-wider text-gray-400">
+                            <span>Admin</span>
+                            <ChevronDown className={`h-4 w-4 transition-transform ${isAdminOpen ? 'rotate-180' : ''}`} />
+                        </button>
+                    )}
+                    {(isAdminOpen || (isSidebarCollapsed && isDesktop)) && (
                         <div className="mt-2 space-y-1">
-                            <NavLink to="/offices" className={navLinkClasses}>
-                                <Building2 className="h-5 w-5 flex-shrink-0" />
-                                <span className={`ml-3 ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>Offices</span>
+                            <NavLink to="/catalog" className={navLinkClasses}>
+                                <ClipboardList className="h-5 w-5 flex-shrink-0" />
+                                <span className={`ml-3 ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>Asset Catalog</span>
                             </NavLink>
                             <NavLink to="/employees" className={navLinkClasses}>
                                 <Users className="h-5 w-5 flex-shrink-0" />
                                 <span className={`ml-3 ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>Employees</span>
                             </NavLink>
-                            <NavLink to="/catalog" className={navLinkClasses}>
-                                <ClipboardList className="h-5 w-5 flex-shrink-0" />
-                                <span className={`ml-3 ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>Asset Catalog</span>
+                            <NavLink to="/offices" className={navLinkClasses}>
+                                <Building2 className="h-5 w-5 flex-shrink-0" />
+                                <span className={`ml-3 ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>Offices</span>
                             </NavLink>
-
                         </div>
                     )}
                 </div>
 
                 {/* --- Settings --- */}
-                <div className={`pt-4 ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>
+                <div className="pt-4">
                     <NavLink to="/settings" className={navLinkClasses}>
                         <Settings className="h-5 w-5 flex-shrink-0" />
                         <span className={`ml-3 ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>Settings</span>

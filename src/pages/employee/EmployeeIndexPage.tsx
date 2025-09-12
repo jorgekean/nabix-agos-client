@@ -38,7 +38,7 @@ export const EmployeeIndexPage: React.FC = () => {
     const renderActions = useCallback((employee: EmployeeWithOffice) => (
         <div className="flex justify-end space-x-2">
             <Link to={`/employees/edit/${employee.employeeID}`}
-                className="p-2 text-primary-600 hover:text-primary-900 hover:bg-primary-100 rounded-full transition-colors">
+                className="p-2 text-secondary-600 hover:text-secondary-900 hover:bg-secondary-100 rounded-full transition-colors">
                 <FaEdit className="h-4 w-4" />
             </Link>
             <button onClick={() => handleDelete(employee)} className="p-2 text-red-600 hover:text-red-900 hover:bg-red-100 rounded-full transition-colors">

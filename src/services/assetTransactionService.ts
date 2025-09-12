@@ -1,4 +1,4 @@
-import { addData, getAllDataByIndex } from '../utils/indexedDB';
+import { addData, getAllData, getAllDataByIndex } from '../utils/indexedDB';
 
 export interface AssetTransaction {
     transactionID?: number;
@@ -19,5 +19,18 @@ export const assetTransactionService = {
     async getTransactionsForInstance(instanceID: number): Promise<AssetTransaction[]> {
         const items = await getAllDataByIndex<AssetTransaction>(STORE_NAME, 'instanceID_idx', instanceID);
         return items.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
-    }
+    },
+
+    async getRecentTransactions(limit = 5): Promise<AssetTransaction[]> {
+        // In our mock setup, we fetch all transactions from the store.
+        const allTransactions = await getAllData<AssetTransaction>(STORE_NAME);
+
+        // Then, we sort them by date in descending order to find the most recent.
+        const sorted = allTransactions.sort((a, b) =>
+            new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+        );
+
+        // And finally, we return the top 'limit' number of transactions.
+        return sorted.slice(0, limit);
+    },
 };

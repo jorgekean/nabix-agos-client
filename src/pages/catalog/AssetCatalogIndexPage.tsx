@@ -60,7 +60,7 @@ export const AssetCatalogIndexPage: React.FC = () => {
         <div className="flex justify-end space-x-2">
             <Link
                 to={`/catalog/edit/${item.catalogID}`}
-                className="p-2 text-primary-600 hover:text-primary-900 hover:bg-primary-100 rounded-full transition-colors"
+                className="p-2 text-secondary-600 hover:text-secondary-900 hover:bg-secondary-100 rounded-full transition-colors"
             >
                 <FaEdit className="h-4 w-4" />
             </Link>
