@@ -137,7 +137,10 @@ export const EquipmentReceivePage: React.FC = () => {
                             <label htmlFor="status" className={labelClasses}>Initial Status *</label>
                             <select id="status" {...register('status')} className={`${inputBaseClasses} ${errors.status ? inputErrorClasses : inputNormalClasses}`}>
                                 <option>In Storage</option>
-                                <option>Ready to Deploy</option>
+                                <option>Issued</option>
+                                <option>Transfer</option>
+                                <option>Returned</option>
+                                <option>Disposed</option>
                             </select>
                             {errors.status && <p className={errorMessageClasses}>{errors.status.message}</p>}
                         </div>

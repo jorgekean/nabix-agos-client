@@ -10,7 +10,7 @@ export interface AssetInstance {
     catalogID: number;
     propertyCode: string;
     serialNumber?: string;
-    status: string;
+    status: 'In Storage' | 'Transferred' | 'Issued' | 'Returned' | 'Disposed';
     currentOfficeId: number;
     assignedToEmployeeId: number | null;
     specificLocation?: string;

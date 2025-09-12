@@ -32,6 +32,7 @@ import { EquipmentHistoryPage } from "./pages/equipment/EquipmentHistoryPage"; /
 // Stock (Supplies)
 import { StockIndexPage } from "./pages/stock/StockIndexPage";
 import { ReceivingVoucherEditPage } from "./pages/vouchers/receivingVoucherEditPage";
+import { EquipmentEditPage } from "./pages/equipment/EquipmentEditPage";
 // import { StockAddPage } from "./pages/stock/StockAddPage";                 // You will create this
 
 // Define your app's routes
@@ -68,7 +69,7 @@ const routes: RouteObject[] = [
             { path: '/equipment', element: <EquipmentIndexPage /> },
             // --- MISSING ROUTES ADDED BELOW ---
             { path: '/equipment/new', element: <EquipmentReceivePage /> },
-            // { path: '/equipment/edit/:id', element: <EquipmentEditPage /> },
+            { path: '/equipment/edit/:id', element: <EquipmentEditPage /> },
             { path: '/equipment/history/:id', element: <EquipmentHistoryPage /> },
 
             // --- Stock/Supplies Routes ---

@@ -28,13 +28,13 @@ const columns: Column<AssetInstanceDetails>[] = [
 export const EquipmentIndexPage: React.FC = () => {
     const [refreshKey, setRefreshKey] = useState(0);
 
-    const fetchData = useCallback(async (page: number, pageSize: number, searchTerm: string) => {
+    const fetchData = useCallback(async (page: number, pageSize: number, searchTerm: string, filters: Record<string, any>) => {
         // 1. Get all instances from the service
         const allInstances = await equipmentService.getDetailedInstances();
         const searchLower = searchTerm.toLowerCase();
 
         // 2. Apply the search filter if a search term exists
-        const filtered = searchTerm
+        let filtered = searchTerm
             ? allInstances.filter(inst =>
                 inst.catalogItem.name.toLowerCase().includes(searchLower) ||
                 inst.propertyCode.toLowerCase().includes(searchLower) ||
@@ -43,6 +43,10 @@ export const EquipmentIndexPage: React.FC = () => {
                 (inst.employee && `${inst.employee.firstName} ${inst.employee.lastName}`.toLowerCase().includes(searchLower))
             )
             : allInstances;
+
+        if (filters.status) {
+            filtered = filtered.filter(inst => inst.status === filters.status);
+        }
 
         // 3. Calculate total pages based on the *filtered* results
         const totalPages = Math.ceil(filtered.length / pageSize);
@@ -74,6 +78,14 @@ export const EquipmentIndexPage: React.FC = () => {
         </div>
     ), []);
 
+    const filterableColumns = [
+        {
+            key: 'status', label: 'Filter by Status', options: [{ label: 'In Storage', value: 'In Storage' },
+            { label: 'Issued', value: 'Issued' }, { label: 'Transferred', value: 'Transferred' },
+            { label: 'Returned', value: 'Returned' }, { label: 'Disposed', value: 'Disposed' }]
+        }
+    ];
+
     return (
         <div className="p-4 md:p-2 space-y-6">
             <header className="flex justify-between items-center">
@@ -89,6 +101,7 @@ export const EquipmentIndexPage: React.FC = () => {
             <DataTable<AssetInstanceDetails | any>
                 key={refreshKey}
                 columns={columns}
+                filterableColumns={filterableColumns}
                 fetchData={fetchData}
                 title="All Equipment"
                 renderActions={renderActions}
