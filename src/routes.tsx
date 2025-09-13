@@ -34,6 +34,8 @@ import { StockIndexPage } from "./pages/stock/StockIndexPage";
 import { ReceivingVoucherEditPage } from "./pages/vouchers/receivingVoucherEditPage";
 import { EquipmentEditPage } from "./pages/equipment/EquipmentEditPage";
 import { StockAddPage } from "./pages/stock/StockAddPage";
+import { StockAdjustPage } from "./pages/stock/StockAdjustPage";
+import { SupplyHistoryPage } from "./pages/stock/SupplyHistoryPage";
 // import { StockAddPage } from "./pages/stock/StockAddPage";                 // You will create this
 
 // Define your app's routes
@@ -76,6 +78,8 @@ const routes: RouteObject[] = [
             // --- Stock/Supplies Routes ---
             { path: '/supplies', element: <StockIndexPage /> },
             { path: '/stock/new', element: <StockAddPage /> },
+            { path: '/supplies/adjust', element: <StockAdjustPage /> },
+            { path: '/supplies/history/:id', element: <SupplyHistoryPage /> },
 
             { path: '/settings', element: <Settings /> },
         ],

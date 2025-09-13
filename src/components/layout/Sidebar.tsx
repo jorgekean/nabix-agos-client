@@ -80,7 +80,7 @@ const Sidebar = () => {
                         <div className="mt-2 space-y-1">
                             <NavLink to="/equipment" className={navLinkClasses}>
                                 <Laptop className="h-5 w-5 flex-shrink-0" />
-                                <span className={`ml-3 ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>Equipment</span>
+                                <span className={`ml-3 ${isSidebarCollapsed && isDesktop ? 'hidden' : ''}`}>Equipments</span>
                             </NavLink>
                             <NavLink to="/supplies" className={navLinkClasses}>
                                 <Box className="h-5 w-5 flex-shrink-0" />

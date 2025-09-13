@@ -1,7 +1,7 @@
 // src/utils/indexedDB.ts
 
 const DB_NAME = 'AssetManagementDB';
-const DB_VERSION = 7;
+const DB_VERSION = 8;
 
 let db: IDBDatabase;
 
@@ -65,6 +65,12 @@ export const initDB = (): Promise<boolean> => {
                 if (!instanceStore.indexNames.contains('receivingVoucherID_idx')) {
                     instanceStore.createIndex('receivingVoucherID_idx', 'receivingVoucherID', { unique: false });
                 }
+            }
+            // StockTransactions (For stock adjustments and history)
+            if (!dbInstance.objectStoreNames.contains('stockTransactions')) {
+                const stockTxStore = dbInstance.createObjectStore('stockTransactions', { keyPath: 'transactionID', autoIncrement: true });
+                // Index to easily find all transactions for a specific stock item
+                stockTxStore.createIndex('stockID_idx', 'stockID', { unique: false });
             }
         };
     });
