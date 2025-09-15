@@ -1,7 +1,7 @@
 // src/utils/indexedDB.ts
 
 const DB_NAME = 'AssetManagementDB';
-const DB_VERSION = 8;
+const DB_VERSION = 10;
 
 let db: IDBDatabase;
 
@@ -50,10 +50,13 @@ export const initDB = (): Promise<boolean> => {
                 stockStore.createIndex('catalogID_officeID_idx', ['catalogID', 'officeID'], { unique: true });
             }
             // AssetTransactions (The history log)
-            if (!dbInstance.objectStoreNames.contains('assetTransactions')) {
-                const transactionStore = dbInstance.createObjectStore('assetTransactions', { keyPath: 'transactionID', autoIncrement: true });
-                transactionStore.createIndex('instanceID_idx', 'instanceID', { unique: false });
+            if (dbInstance.objectStoreNames.contains('assetTransactions')) {
+                dbInstance.deleteObjectStore('assetTransactions');
             }
+            // if (!dbInstance.objectStoreNames.contains('assetTransactions')) {
+            const transactionStore = dbInstance.createObjectStore('assetTransactions', { keyPath: 'transactionID', autoIncrement: true });
+            transactionStore.createIndex('instanceID_idx', 'instanceID', { unique: false });
+            // }
             // ReceivingVouchers (For equipment receipts)
             if (!dbInstance.objectStoreNames.contains('receivingVouchers')) {
                 dbInstance.createObjectStore('receivingVouchers', { keyPath: 'voucherID', autoIncrement: true });

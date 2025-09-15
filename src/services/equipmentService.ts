@@ -54,9 +54,12 @@ export const equipmentService = {
         const newId = await addData(STORE_NAME, instance);
         const newInstance = { ...instance, instanceID: newId };
 
+        // Log the new, detailed transaction
         await assetTransactionService.addTransaction({
             instanceID: newId,
-            action: 'Received',
+            action: instance.status, // The action is the initial status
+            officeID: instance.currentOfficeId,
+            employeeID: instance.assignedToEmployeeId,
             notes: `Asset instance created with property code ${instance.propertyCode}.`,
             timestamp: new Date().toISOString(),
         });
@@ -69,25 +72,23 @@ export const equipmentService = {
         if (!oldInstance) throw new Error("Instance not found");
 
         const changes = [];
-        let action: AssetTransaction['action'] = 'Updated';
-
         if (oldInstance.status !== instance.status) {
-            changes.push(`Status changed to "${instance.status}".`);
-            if (instance.status === 'Disposed') action = 'Disposed';
+            changes.push(`Status changed from "${oldInstance.status}" to "${instance.status}".`);
         }
         if (oldInstance.assignedToEmployeeId !== instance.assignedToEmployeeId) {
-            changes.push(`Assignment changed.`);
-            action = oldInstance.assignedToEmployeeId ? (instance.assignedToEmployeeId ? 'Transferred' : 'Returned') : 'Issued';
+            changes.push(`Assignment updated.`);
         }
         if (oldInstance.currentOfficeId !== instance.currentOfficeId) {
-            changes.push(`Location changed.`);
-            action = 'Transferred';
+            changes.push(`Office location updated.`);
         }
 
+        // Log the new, detailed transaction if anything changed
         if (changes.length > 0) {
             await assetTransactionService.addTransaction({
                 instanceID: instance.instanceID!,
-                action: action,
+                action: instance.status, // The action is the new status
+                officeID: instance.currentOfficeId,
+                employeeID: instance.assignedToEmployeeId,
                 notes: changes.join(' '),
                 timestamp: new Date().toISOString(),
             });

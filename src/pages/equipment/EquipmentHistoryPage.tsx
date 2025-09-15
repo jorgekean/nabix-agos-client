@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Clock } from 'lucide-react';
+import { ArrowLeft, Clock, Info, MapPin, User } from 'lucide-react';
 import { type AssetInstanceDetails, equipmentService } from '../../services/equipmentService';
-import { type AssetTransaction, assetTransactionService } from '../../services/assetTransactionService';
+import { assetTransactionService, type DetailedAssetTransaction } from '../../services/assetTransactionService';
 
 export const EquipmentHistoryPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const [instance, setInstance] = useState<AssetInstanceDetails | null>(null);
-    const [transactions, setTransactions] = useState<AssetTransaction[]>([]);
+    const [transactions, setTransactions] = useState<DetailedAssetTransaction[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -21,7 +21,7 @@ export const EquipmentHistoryPage: React.FC = () => {
         // Fetch both the asset's details and its history concurrently
         Promise.all([
             equipmentService.getDetailedInstances().then(instances => instances.find(i => i.instanceID === instanceId)),
-            assetTransactionService.getTransactionsForInstance(instanceId)
+            assetTransactionService.getDetailedTransactionsForInstance(instanceId)
         ]).then(([instanceDetails, transactionLogs]) => {
             if (instanceDetails) {
                 setInstance(instanceDetails);
@@ -70,21 +70,23 @@ export const EquipmentHistoryPage: React.FC = () => {
                             <li key={item.transactionID}>
                                 <div className="relative pb-8">
                                     {index !== transactions.length - 1 && <span className="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200 dark:bg-gray-700" aria-hidden="true" />}
-                                    <div className="relative flex items-start space-x-3">
+                                    <div className="relative flex items-start space-x-4">
                                         <div>
-                                            <span className="h-8 w-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center ring-8 ring-gray-100 dark:ring-gray-900">
-                                                <Clock className="h-5 w-5 text-gray-500" />
+                                            <span className="h-8 w-8 rounded-full bg-primary-500 text-white flex items-center justify-center ring-8 ring-gray-100 dark:ring-gray-900">
+                                                <Info className="h-5 w-5" />
                                             </span>
                                         </div>
                                         <div className="min-w-0 flex-1">
-                                            <div>
-                                                <div className="text-sm">
-                                                    <p className="font-medium text-gray-900 dark:text-white">{item.action}</p>
-                                                </div>
-                                                <p className="mt-0.5 text-sm text-gray-500">{item.notes}</p>
+                                            <div className="flex justify-between items-center">
+                                                <p className="font-medium text-gray-900 dark:text-white">{item.action}</p>
+                                                <time dateTime={item.timestamp} className="text-xs text-gray-500">
+                                                    {new Date(item.timestamp).toLocaleDateString()}
+                                                </time>
                                             </div>
-                                            <div className="mt-2 text-sm text-gray-500">
-                                                <time dateTime={item.timestamp}>{new Date(item.timestamp).toLocaleString()}</time>
+                                            <div className="mt-2 space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                                                <p className="flex items-center"><MapPin className="h-4 w-4 mr-2 text-gray-400" /> At: {item.officeName}</p>
+                                                <p className="flex items-center"><User className="h-4 w-4 mr-2 text-gray-400" /> With: {item.employeeName || 'Unassigned'}</p>
+                                                {item.notes && <p className="italic text-gray-500">Note: "{item.notes}"</p>}
                                             </div>
                                         </div>
                                     </div>
@@ -92,7 +94,6 @@ export const EquipmentHistoryPage: React.FC = () => {
                             </li>
                         ))}
                     </ul>
-                    {transactions.length === 0 && <p className="text-sm text-gray-500">No history found for this asset.</p>}
                 </div>
             </div>
 
