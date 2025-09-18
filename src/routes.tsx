@@ -77,7 +77,7 @@ const routes: RouteObject[] = [
 
             // --- Stock/Supplies Routes ---
             { path: '/supplies', element: <StockIndexPage /> },
-            { path: '/stock/new', element: <StockAddPage /> },
+            { path: '/supplies/new', element: <StockAddPage /> },
             { path: '/supplies/adjust', element: <StockAdjustPage /> },
             { path: '/supplies/history/:id', element: <SupplyHistoryPage /> },
 

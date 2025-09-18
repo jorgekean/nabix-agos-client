@@ -38,7 +38,7 @@ export const ReceivingVoucherIndexPage: React.FC = () => {
     ), []);
 
     return (
-        <div className="p-4 md:p-6 space-y-6">
+        <div className="p-4 md:p-2 space-y-6">
             <header>
                 <h1 className="text-3xl font-bold">Receiving Vouchers</h1>
                 <p className="mt-1 text-md text-gray-500">A log of all procurement and receiving events.</p>
